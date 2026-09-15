@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/jhonath1010/fragments/issues"
   },
-  "homepage": "https://github.com/jhonath1010/fragments#readme"
+  "homepage": "https://github.com/jhonath1010/fragments#readme",
+  "devDependencies": {
+    "prettier": "3.9.6"
+  }
 }
