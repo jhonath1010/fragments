@@ -35,5 +35,16 @@ app.use(passport.initialize());
 // Define our routes
 app.use('/', require('./routes'));
 
+// Add 404 middleware to handle requests for resources that can't be found
+app.use((req, res) => {
+  res.status(404).json({
+    status: 'error',
+    error: {
+      message: 'not found',
+      code: 404,
+    },
+  });
+});
+
 // Export our `app` so we can access it in server.js
 module.exports = app;
