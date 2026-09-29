@@ -2,39 +2,30 @@
 
 const express = require('express');
 
-// version and author from package.json
 const { version, author } = require('../../package.json');
-
-// Our authentication middleware
 const { authenticate } = require('../auth');
+const { createSuccessResponse } = require('../response');
 
-// Create a router that we can use to mount our API
 const router = express.Router();
 
-/**
- * Expose all of our API routes on /v1/* to include an API version.
- * Protect them all with middleware so you have to be authenticated
- * in order to access things.
- */
+// Mount our API routes under /v1
 router.use('/v1', authenticate(), require('./api'));
 
-/**
- * Define a simple health check route. If the server is running
- * we'll respond with a 200 OK.
- */
+// Define a health check route
 router.get('/', (req, res) => {
-  // Clients shouldn't cache this response (always request it fresh)
+  // Prevent clients and proxies from caching this response
   res.setHeader('Cache-Control', 'no-cache');
 
-  res.status(200).json({
-    status: 'ok',
-    description: 'fragments service running',
-    author,
-    // TODO: change this to use your GitHub username!
-    githubUrl: 'https://github.com/REPLACE_WITH_YOUR_GITHUB_USERNAME/fragments',
-    version,
-    timestamp: new Date().toISOString(),
-  });
+  // Return information about the running service
+  res.status(200).json(
+    createSuccessResponse({
+      description: 'fragments service running',
+      author,
+      githubUrl: 'https://github.com/jhonath1010/fragments',
+      version,
+      timestamp: new Date().toISOString(),
+    })
+  );
 });
 
 module.exports = router;
